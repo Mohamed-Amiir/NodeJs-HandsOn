@@ -1,20 +1,15 @@
 const validator = require("../util/studentValidator");
-const students = [
-  { name: "Mohamed", dep: "SC", id: 1 },
-  { name: "Ahmed", dep: "SC", id: 2 },
-  { name: "Mazen", dep: "SC", id: 3 },
-  { name: "Fawzy", dep: "SC", id: 4 },
-  { name: "Fathy", dep: "IS", id: 5 },
-  { name: "Yasser", dep: "SC", id: 7 },
-  { name: "Nillo", dep: "CS", id: 8 },
-  { name: "Turkey", dep: "CS", id: 9 },
-  { name: "Zien", dep: "IS", id: 10 },
-  { name: "zayan", dep: "IS", id: 11 },
-];
+const Student = require("../models/studentModel");
+
 const getAllStudents = (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
-  res.json(students);
-  //   res.render("students.ejs", { std: students });
+  // res.json(Student.fetchAllStudents());
+  Student.fetchAllStudents((obj) => {
+    res.json(obj);
+    // res.render("students.ejs", {
+    //   std: obj,
+    // });
+  });
 };
 const getStudentByID = (req, res) => {
   console.log("requist resieved....");
@@ -28,8 +23,10 @@ const getStudentByID = (req, res) => {
 const createNewStudent = (req, res) => {
   let valid = validator(req.body);
   if (valid) {
-    req.body.id = students.length + 1;
-    students.push(req.body);
+    let std = new Student(req.body.name, req.body.dep);
+    std.saveStudent();
+    // req.body.id = students.length + 1;
+    // students.push(req.body);
     res.json(req.body);
   } else {
     res.status(403).send("forbidden command");

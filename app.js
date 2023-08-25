@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-
+const mongoose = requrie("mongoose");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const ejs = require("ejs");
@@ -9,7 +9,6 @@ const studentsRouter = require("./routes/Students");
 const stage1 = require("./middlewares/stage1");
 const stage2 = require("./middlewares/stage2");
 const port = process.env.PORT || 3000;
-
 
 //3rd party midlewere
 app.use(helmet());
@@ -31,6 +30,14 @@ app.get("/", (req, res) => {
   );
 });
 
+mongoose
+  .connect("mongodb://localhost:27017/faculty")
+  .then(() => {
+    console.log("Database Connected....");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 //
 
 //Request welcome
