@@ -1,8 +1,7 @@
 const Student = require("../models/studentModelDB");
-const { deleteStudent } = require("./StudentsControllers");
 
 //addNewStudent
-const addNewStudent = (req, res) => {
+let addNewStudent = (req, res) => {
   let std = new Student({
     name: req.body.name,
     dep: req.body.dep,
@@ -16,53 +15,57 @@ const addNewStudent = (req, res) => {
     })
     .catch((err) => {
       for (let e in err.errors) {
-        console.log(err.errors[e].message());
+        console.log(err.errors[e].message);
       }
     });
-  //   Student.insertMany({ name: req.name, dep: req.dep, id: req.id })
-  //     .then(() => {
-  //       console.log("Student Added Successfully.");
-  //     })
-  //     .catch((err) => {
-  //       for (let e in err.errors) {
-  //         console.log(err.errors[e].message());
-  //       }
-  //     });
+};
+//getAllStudents
+let getAllStudents = async (req, res) => {
+  let std = await Student.find().sort({ name: 1 });
+  res.send(std);
+  console.log("Display all students informations....");
 };
 
 //getStudentByID
-const getStudentByID = async (req, res) => {
+let getStudentByID = async (req, res) => {
   let std = await Student.findById(req.params.id);
   if (!std) return res.status(404).send("Student NOT found !");
-  else res.send(std);
-};
-
-//getAllStudents
-const getAllStudents = async (req, res) => {
-  let std = await Student.find().select({ name: 1, dep: 1 }).sort({ name: 1 });
-  res.send(std);
+  else {
+    res.send(std);
+    console.log(`Display ${std.name} informations....`);
+  }
 };
 
 //updateStudent
-const updateStudent = async (req, res) => {
-  let std = await Student.findOneAndUpdate(req.params.id, req.body, {
-    returnOriginal: false,
-  });
+let updateStudent = async (req, res) => {
+  let std = await Student.findOneAndUpdate(
+    { _id: req.params.id }, // Assuming 'id' is the MongoDB ObjectId
+    req.body,
+    { new: true, useFindAndModify: false } // Options object
+  );
   if (!std) return res.status(404).send("Student NOT found !");
-  else res.send(std);
+  else {
+    res.send(std);
+    console.log("Student Informations are Updated Successfully.");
+  }
 };
 
 //deleteStudent
-const deleteStudent = async (req, res) => {
-  let std = await Student.findByIdAndRemove(req.params.id);
+let deleteStudent = async (req, res) => {
+  let std = await Student.findByIdAndDelete(req.params.id, {
+    useFindAndModify: true,
+  });
   if (!std) return res.status(404).send("Student NOT found !");
-  else res.send(std);
+  else {
+    res.send(std);
+    console.log(`Student ${std.name} is deleted Successfully.`);
+  }
 };
 
-module.exports(
+module.exports = {
   addNewStudent,
   getStudentByID,
   getAllStudents,
   updateStudent,
-  deleteStudent
-);
+  deleteStudent,
+};

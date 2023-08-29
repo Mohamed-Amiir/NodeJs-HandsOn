@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const mongoose = requrie("mongoose");
+const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const ejs = require("ejs");
@@ -31,13 +31,18 @@ app.get("/", (req, res) => {
 });
 
 mongoose
-  .connect("mongodb://localhost:27017/faculty")
+  .connect("mongodb://localhost:27017/faculty", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: true,
+  })
   .then(() => {
-    console.log("Database Connected....");
+    console.log("Database Connected...");
   })
   .catch((err) => {
-    console.log(err);
+    console.error("Error connecting to database:", err);
   });
+
 //
 
 //Request welcome

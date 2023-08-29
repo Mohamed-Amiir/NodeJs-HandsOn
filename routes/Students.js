@@ -3,24 +3,24 @@ const router = express.Router();
 const validator = require("../util/studentValidator");
 const studentController = require("../controllers/StudentsControllerDB");
 
-//parameter middleware
-router.param("id", (req, res, next, val) => {
-  if (Number(val)) {
+// parameter middleware
+router.param("id", (req, res, nxt, val) => {
+  if (/^[0-9a-fA-F]{24}$/.test(val)) {
     req.id = val;
-    next();
+    nxt();
   } else {
-    res.send("Invalid ID");
+    res.status(400).send("Invalid ID");
   }
 });
 
 //Request all students
-router.get("/", studentController.getAllStudnts);
+router.get("/", studentController.getAllStudents);
 
 //Request student by ID
 router.get("/:id", studentController.getStudentByID);
 
-//create new student
-router.post("/", studentController.addNewStudent);
+//add new student
+router.post("/", /*validator,*/ studentController.addNewStudent);
 
 //delete student
 router.delete("/:id", studentController.deleteStudent);

@@ -1,6 +1,8 @@
 const Ajv = require("ajv");
+const ajv = new Ajv();
+
 const schema = {
-  type: "object", // Corrected typo from "opject" to "object"
+  type: "object",
   properties: {
     name: {
       type: "string",
@@ -8,14 +10,12 @@ const schema = {
     },
     dep: {
       type: "string",
-      enum: ["IS", "CS", "SC", "Sy"],
-      maxLength: 2,
-      minLength: 2,
+      enum: ["IS", "CS", "SC", "Csys"],
     },
   },
   required: ["name", "dep"],
-  maxProperties: 2,
-  minProperties: 2,
 };
-const ajv = new Ajv();
-module.exports = ajv.compile(schema);
+
+const validate = ajv.compile(schema);
+
+module.exports = validate;

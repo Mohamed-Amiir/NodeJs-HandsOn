@@ -19,8 +19,9 @@ const stdSchema = new mongoose.Schema({
     max: 2000,
   },
 });
+stdSchema.index({ id: 1 }); // Creating an index on the 'id' field
 //4- create model
-const STUDNET = mongoose.model("students", stdSchema);
+const STUDENT = mongoose.model("students", stdSchema);
 // CRUD operations
 
-module.exports = STUDNET;
+module.exports = STUDENT;
