@@ -6,8 +6,7 @@ const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const ejs = require("ejs");
 const studentsRouter = require("./routes/Students");
-const stage1 = require("./middlewares/stage1");
-const stage2 = require("./middlewares/stage2");
+const userRouter = require("./routes/User");
 const port = process.env.PORT || 3000;
 
 //3rd party midlewere
@@ -15,6 +14,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/api/users", userRouter);
 app.use("/api/students", studentsRouter);
 app.use(
   express.static(
@@ -22,8 +22,6 @@ app.use(
   )
 );
 // Request main // using middleware pipeline
-app.use(stage1);
-app.use(stage2);
 app.get("/", (req, res) => {
   res.sendFile(
     path.join(__dirname, "../Football-leagues/public/football.html")

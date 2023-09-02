@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const validator = require("../util/studentValidator");
+const validator = require("../middlewares/StudentValidatorMW");
 const studentController = require("../controllers/StudentsControllerDB");
 
 // parameter middleware
@@ -20,7 +20,7 @@ router.get("/", studentController.getAllStudents);
 router.get("/:id", studentController.getStudentByID);
 
 //add new student
-router.post("/", /*validator,*/ studentController.addNewStudent);
+router.post("/", validator, studentController.addNewStudent);
 
 //delete student
 router.delete("/:id", studentController.deleteStudent);
