@@ -7,6 +7,7 @@ const helmet = require("helmet");
 const ejs = require("ejs");
 const studentsRouter = require("./routes/Students");
 const userRouter = require("./routes/User");
+const authRouter = require("./routes/auth");
 const port = process.env.PORT || 3000;
 
 //3rd party midlewere
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/users", userRouter);
 app.use("/api/students", studentsRouter);
+app.use("/api/login", authRouter);
 app.use(
   express.static(
     "C:/Users/lenovo/Desktop/NodeJS/My-Github/Football-leagues/public"
