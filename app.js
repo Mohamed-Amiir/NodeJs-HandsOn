@@ -8,7 +8,7 @@ const ejs = require("ejs");
 const studentsRouter = require("./routes/Students");
 const userRouter = require("./routes/User");
 const authRouter = require("./routes/auth");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 //3rd party midlewere
 app.use(helmet());
