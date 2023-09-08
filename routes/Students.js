@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validator = require("../middlewares/StudentValidatorMW");
 const studentController = require("../controllers/StudentsControllerDB");
+const authorization = require("../middlewares/AuthorizationMW");
 
 // parameter middleware
 router.param("id", (req, res, nxt, val) => {
@@ -20,12 +21,12 @@ router.get("/", studentController.getAllStudents);
 router.get("/:id", studentController.getStudentByID);
 
 //add new student
-router.post("/", validator, studentController.addNewStudent);
+router.post("/", validator, authorization, studentController.addNewStudent);
 
 //delete student
-router.delete("/:id", studentController.deleteStudent);
+router.delete("/:id", authorization, studentController.deleteStudent);
 
 //Update student data
-router.put("/:id", studentController.updateStudent);
+router.put("/:id", authorization, studentController.updateStudent);
 
 module.exports = router;

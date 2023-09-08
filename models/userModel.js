@@ -2,6 +2,7 @@
 const mongoose = require("mongoose");
 const valid = require("validator");
 const config = require("config");
+const jwt = require("jsonwebtoken");
 //2- connect to db
 // mongoose
 //   .connect("mongodb://localhost:27017/faculty", {
@@ -39,11 +40,20 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 5000,
   },
+  isAdmin: {
+    type: Boolean,
+  },
 });
-userSchema.method("genAuthToken",function(){
-  const token = jwt.sign({ usrid: this._id }, config.get("jwtsec"));
+userSchema.method("genAuthToken", function () {
+  const token = jwt.sign(
+    {
+      usrid: this._id,
+      adminRole: this.isAdmin,
+    },
+    config.get("jwtsec")
+  );
   return token;
-})
+});
 //4- CRUD operations
 
 // userSchema.index({ email: 1 }); // Creating an index on the 'id' field

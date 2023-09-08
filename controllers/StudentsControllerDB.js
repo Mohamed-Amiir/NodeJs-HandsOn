@@ -57,7 +57,7 @@ let deleteStudent = async (req, res) => {
   });
   if (!std) return res.status(404).send("Student NOT found !");
   else {
-    res.send(std);
+    res.send(`Student ${std.name} is deleted Successfully.`);
     console.log(`Student ${std.name} is deleted Successfully.`);
   }
 };
