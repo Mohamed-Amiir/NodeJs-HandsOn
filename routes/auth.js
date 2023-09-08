@@ -15,12 +15,14 @@ router.post("/", validator, async (req, res) => {
     if (!validPassword)
       return res.status(400).send("Invalid email or password !");
     // send res
+    ////JSON WEB TOKEN
     if (!config.get("jwtsec"))
       return res
         .status(500)
         .send("Request can not be fullfilled ... token is not defined !!");
-    const token = jwt.sign({ usrid: user._id }, config.get("jwtsec"));
+    const token = user.genAuthToken();
     res.header("x-auth-token", token);
+    ///
     res.status(200).send("logged-in successfully");
   } catch (err) {
     for (let e in err.errors) {

@@ -1,5 +1,6 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const config = require("config");
 
 /*let registration = (req, res) => {
   // Generate a salt with 10 rounds
@@ -70,6 +71,16 @@ let registration = async (req, res) => {
         password: hashedPassword,
       });
       await newUser.save();
+
+      ////JSON WEB TOKEN
+      if (!config.get("jwtsec"))
+        return res
+          .status(500)
+          .send("Request can not be fullfilled ... token is not defined !!");
+      const token = newUser.genAuthToken();
+      res.header("x-auth-token", token);
+      ///
+
       console.log("User Added Successfully.");
       res.status(200).send("User Registration is done successfully.");
     }

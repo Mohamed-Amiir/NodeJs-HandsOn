@@ -1,6 +1,7 @@
 //1- require mongoose
 const mongoose = require("mongoose");
 const valid = require("validator");
+const config = require("config");
 //2- connect to db
 // mongoose
 //   .connect("mongodb://localhost:27017/faculty", {
@@ -39,7 +40,10 @@ const userSchema = new mongoose.Schema({
     maxlength: 5000,
   },
 });
-
+userSchema.method("genAuthToken",function(){
+  const token = jwt.sign({ usrid: this._id }, config.get("jwtsec"));
+  return token;
+})
 //4- CRUD operations
 
 // userSchema.index({ email: 1 }); // Creating an index on the 'id' field
