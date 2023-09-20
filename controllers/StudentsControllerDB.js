@@ -25,7 +25,6 @@ let getAllStudents = async (req, res) => {
   res.send(std);
   console.log("Display all students informations....");
 };
-
 //getStudentByID
 let getStudentByID = async (req, res) => {
   let std = await Student.findById(req.params.id);
@@ -35,7 +34,6 @@ let getStudentByID = async (req, res) => {
     console.log(`Display ${std.name} informations....`);
   }
 };
-
 //updateStudent
 let updateStudent = async (req, res) => {
   let std = await Student.findOneAndUpdate(
@@ -49,7 +47,6 @@ let updateStudent = async (req, res) => {
     console.log("Student Informations are Updated Successfully.");
   }
 };
-
 //deleteStudent
 let deleteStudent = async (req, res) => {
   let std = await Student.findByIdAndDelete(req.params.id, {
